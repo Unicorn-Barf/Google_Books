@@ -13,12 +13,21 @@ const resolvers = {
             } catch (error) {
                 throw new Error(error);
             };
+        },
+        me: async (parent, args, context) => {
+            try {
+                const user = User.findById(context.user._id);
+                if (!user) throw new Error({ message: 'Not logged in!'});
+                return user;
+            } catch (error) {
+                throw new Error(error);
+            }
         }
     },
 
     Mutation: {
         // create a user, sign a token, and send it back (to client/src/components/SignUpForm.js)
-        createUser: async (parent, args, context) => {
+        addUser: async (parent, args, context) => {
             const user = await User.create({...args });
 
             if (!user) {
@@ -45,13 +54,13 @@ const resolvers = {
         },
         // save a book to a user's `savedBooks` field by adding it to the set (to prevent duplicates)
         // user comes from `req.user` created in the auth middleware function
-        saveBook: async (parent, { bookId }, context) => {
+        saveBook: async (parent, args, context) => {
             console.log(user);
             try {
                 if (context.user) {
                     return await User.findOneAndUpdate(
                         { _id: context.user._id },
-                        { $addToSet: { savedBooks: bookId } },
+                        { $addToSet: { savedBooks: {...args} } },
                         { new: true, runValidators: true }
                     );
                 }
@@ -62,12 +71,12 @@ const resolvers = {
             };
         },
         // remove a book from `savedBooks`
-        deleteBook: async (parent, {bookId}, context) => {
+        deleteBook: async (parent, args, context) => {
             try {
                 if (context.user) {
                     const updatedUser = await User.findOneAndUpdate(
                         { _id: context.user._id },
-                        { $pull: { savedBooks: { bookId } } },
+                        { $pull: { savedBooks: { ...args } } },
                         { new: true }
                     );
                     if (!updatedUser) {
