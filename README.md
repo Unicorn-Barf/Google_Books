@@ -14,7 +14,6 @@
   - [Continued development](#continued-development)
   - [Useful resources](#useful-resources)
 - [Author](#author)
-- [Acknowledgments](#acknowledgments)
 ​
 ​
 ## Overview
@@ -69,65 +68,38 @@ THEN I am logged out of the site and presented with a menu with the options Sear
 
 <br>
 
-![My Website](./public/assets/images/techBlog.png)
+![My Website](./client/src/assets/images/siteScreenshot.png)
 ​
 ### Links
 
-- Live Website: [https://nolans-tech-blog.herokuapp.com/](https://nolans-tech-blog.herokuapp.com/)
+- Live Website: [https://nolans-google-books.herokuapp.com/](https://nolans-google-books.herokuapp.com/)
 <br>
 
 ## My process
 ​
 ### Built with
 
-- JavaScript
+- React
+- NoSQL
+- Mongoose ODM
 - NodeJS
-- NPM express-handlebars
-- NPM express
-- NPM sequelize
-- NPM mysql2
-- NPM bcryptjs
-- NPM express-sessions
-- NPM connect-session-sequelize
+- NPM Express
+- Apollo Server
+- GraphQL
 ​
 ### What I learned
 ​
-In this challenge, I leanred about the challenges when truly devloping a fullstack application.  One challenge that occurred was how to conditionally display a edit button on comments that belonged to the logged in user.  This required me to handle creating a boolean for all comments fetch from the database in my backend routes code.  Below is a code snippet of how I handled creating this boolean:
-
-```js
-if (req.session.isLoggedIn) {
-    // create boolean if user is viewing their post
-    req.session.user.id === blogPost.userId ? blogPost.edit = true : blogPost.edit = false;
-    // create a boolean in each comment for editing comments permission
-    blogPost.comments.forEach(comment => {
-        if (comment.userId === req.session.user.id) return comment.commentEdit = true;
-        else return comment.commentEdit = false;
-    });
-};
-```
-
-Here, the `blogPost` is a data structure received from the database utilizing a sequelize query.  The blog post query included `comments` which were the associated comments for that post.  In my code, I first checked that the user was logged in currently.  Then, if they were, I used a `forEach()` array method on the comments to add a `commentEdit` boolean to the data structure for each element in comments; if true, it meant that the comment belonged to the logged in user.  Now, I could send this data when rendering the handlebars page and use it as a conditional.  Below is where I used it in the markup language:
-
-```handlebars
-{{#if data.commentEdit}}
-<div class="card-footer">
-    <button data-commentid="{{data.id}}" type="button" class="editComment-btn btn btn-danger" data-bs-target="#editComment-modal"
-        data-bs-toggle="modal">Edit</button>
-</div>
-{{/if}}
-```
-​
-As seen above, now I could conditionally add an edit button on the dynamically displayed comments only for the comments that belong to the logged in user.
+This challenge required a refactor of a RESTful API backend and the frontend code attached to it into a stricly GraphQL application.  Some challenges that arrose were becoming familiar with the new hooks used in React components such as useQuery and useMutation.  In addition, the data structures that they return and how the naming of the their keys are determined from the query/mutation definitions.
 
 ### Continued development
 ​
-In the future, I want to utilize this project as a template to implement a blog feature in other applications that I build.  While this is a fairly raw skeleton for a blog, it provides a great starting point to refine into a well developed blog.  Other features I would like to add include: edited labels for edited comments, more personalized dashboard, improved styling and UI/UX, and private messaging.
+In the future, I will use the skills I learned from this challenge to help me convert old applications into GraphQL ones.
 ​
 ### Useful resources
 ​
-- [Sequelize DOCS associations](https://sequelize.org/docs/v6/core-concepts/assocs/) - The seqeulize docs were great at breaking down how to use their association methods.
+- [Apollo GraphQL Docs](https://www.apollographql.com/docs/apollo-server/data/resolvers) - The Apollo graphql docs were great at describing how to implement graphQL when using an Apollo server.
 
-- [Handlebars Docs](https://handlebarsjs.com/) - While handlebars is simple to use, I found referencing their docs was very helpful and gave insight to cool features I would've overlooked.
+- [GraphQL Docs](https://graphql.org/learn/) - I found using the GraphQl docs very helpful to use in conjuction with the Apollo docs as well.
 
 ​
 ## Author
@@ -135,7 +107,3 @@ In the future, I want to utilize this project as a template to implement a blog 
 Nolan Spence
 - Website - [Nolan Spence](https://unicorn-barf.github.io/Portfolio_Website_HTML_CSS/)
 - Github - [https://github.com/Unicorn-Barf](https://github.com/Unicorn-Barf)
-​
-## Acknowledgments
-
-Thank you to Luigi TA for my bootcamp discussing standard practices when passing data to handlebars markup with backend rendering.
