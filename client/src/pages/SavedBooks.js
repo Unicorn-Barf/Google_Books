@@ -44,6 +44,12 @@ const SavedBooks = () => {
     }
   };
 
+  // funtion to redirect use when clicking book
+  const handleRedirect = (link) => {
+    if (link) window.open(link, '_blank');
+    else return;
+  }
+
   // if data isn't here yet, say so
   if (!userDataLength) {
     return <h2>LOADING...</h2>;
@@ -71,6 +77,15 @@ const SavedBooks = () => {
                   <Card.Title>{book.title}</Card.Title>
                   <p className='small'>Authors: {book.authors}</p>
                   <Card.Text>{book.description}</Card.Text>
+                  {
+                    book.link
+                      ? <Button
+                        className='btn-block btn-success'
+                        onClick={() => handleRedirect(book.link)}>
+                        View on Google
+                      </Button>
+                      : ''
+                  }
                   <Button className='btn-block btn-danger' onClick={() => handleDeleteBook(book.bookId)}>
                     Delete this Book!
                   </Button>
