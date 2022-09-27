@@ -48,8 +48,9 @@ const SearchBooks = () => {
         title: book.volumeInfo.title,
         description: book.volumeInfo.description,
         image: book.volumeInfo.imageLinks?.thumbnail || '',
+        link: book.volumeInfo.infoLink || null,
       }));
-
+      console.log(bookData);
       setSearchedBooks(bookData);
       setSearchInput('');
     } catch (err) {
@@ -81,6 +82,12 @@ const SearchBooks = () => {
       console.error(err);
     }
   };
+
+  // funtion to redirect use when clicking book
+  const handleRedirect = (link) => {
+    if (link) window.open(link, '_blank');
+    else return;
+  }
 
   return (
     <>
@@ -118,7 +125,7 @@ const SearchBooks = () => {
         <CardColumns>
           {searchedBooks.map((book) => {
             return (
-              <Card key={book.bookId} border='dark'>
+              <Card key={book.bookId} border='dark' onClick={() => handleRedirect(book.link)}>
                 {book.image ? (
                   <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' />
                 ) : null}
