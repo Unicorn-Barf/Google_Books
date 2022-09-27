@@ -32,8 +32,8 @@ const resolvers = {
             const user = await User.create({...args });
 
             if (!user) {
-                throw new Error({ message: 'Something is wrong!' });
-            }
+                throw new Error('Something is wrong!');
+            };
             const token = signToken(user);
             return { token, user };
         },
@@ -65,7 +65,7 @@ const resolvers = {
                         { new: true, runValidators: true }
                     );
                 }
-                else throw new Error({ message: 'Not logged in!'});
+                else throw new Error('Not logged in!');
             } catch (err) {
                 console.log(err);
                 throw new Error(err);
@@ -85,7 +85,7 @@ const resolvers = {
                     };
                     return updatedUser;
                 }
-                else throw new Error({ message: 'Not logged in!'});
+                else throw new Error('Not logged in!');
 
             } catch (error) {
                 throw new Error(error);

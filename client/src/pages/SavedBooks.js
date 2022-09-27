@@ -8,10 +8,10 @@ import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
-  const [userData, setUserData] = useState({});
+  // const [userData, setUserData] = useState({});
   const { loading, data } = useQuery(GET_ME);
   console.log(data);
-  if (data.me) setUserData(data.me);
+  let userData = data?.me || {};
 
   // Use mutation hook to remove book to user book array
   const [removeBook, { error }] = useMutation(REMOVE_BOOK);
@@ -29,14 +29,14 @@ const SavedBooks = () => {
     }
 
     try {
-      const { user } = await removeBook({
+      const { data } = await removeBook({
         variables: { bookId }
       });
 
-      if (!data.ok) {
+      if (!data.removeBook) {
         throw new Error('something went wrong!');
       }
-      setUserData(user);
+      userData = data.removeBook;
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
