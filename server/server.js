@@ -5,6 +5,8 @@ const { authMiddleware } = require('./utils/auth');
 
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
+const mongoose = require('mongoose');
+mongoose.set('debug', true);
 // const routes = require('./routes');
 
 const app = express();
