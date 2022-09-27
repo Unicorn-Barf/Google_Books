@@ -74,7 +74,7 @@ const SearchBooks = () => {
       const { data } = await saveBook({
         variables: { book: bookToSave }
       });
-      
+
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
@@ -125,7 +125,7 @@ const SearchBooks = () => {
         <CardColumns>
           {searchedBooks.map((book) => {
             return (
-              <Card key={book.bookId} border='dark' onClick={() => handleRedirect(book.link)}>
+              <Card key={book.bookId} border='dark'>
                 {book.image ? (
                   <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' />
                 ) : null}
@@ -133,6 +133,15 @@ const SearchBooks = () => {
                   <Card.Title>{book.title}</Card.Title>
                   <p className='small'>Authors: {book.authors}</p>
                   <Card.Text>{book.description}</Card.Text>
+                  {
+                    book.link
+                      ? <Button
+                        className='btn-block btn-success'
+                        onClick={() => handleRedirect(book.link)}>
+                        View on Google
+                      </Button>
+                      : ''
+                  }
                   {Auth.loggedIn() && (
                     <Button
                       disabled={savedBookIds?.some((savedBookId) => savedBookId === book.bookId)}
